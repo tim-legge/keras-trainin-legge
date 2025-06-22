@@ -240,6 +240,7 @@ if __name__ == "__main__":
             Input(shape=X_train_val.shape[1:]),
             y_train_val.shape[1],
             l1Reg=yamlConfig["L1Reg"],
+            layersizes = yamlConfig["LayerSizes"]
         )
 
     print_model_to_json(keras_model, options.outputDir + "/" + "KERAS_model.json")
