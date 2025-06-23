@@ -4,6 +4,12 @@ import os
 import keras
 import numpy as np
 
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
+
+print("sys.path:", sys.path)
+
 # fix random seed for reproducibility
 seed = 42
 np.random.seed(seed)
@@ -17,6 +23,8 @@ from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 import yaml
 import models
+
+from yaml import Loader, Dumper
 
 # To turn off GPU
 # os.environ['CUDA_VISIBLE_DEVICES'] = ''
@@ -173,7 +181,7 @@ def parse_config(config_file):
 
     print("Loading configuration from", config_file)
     config = open(config_file, "r")
-    return yaml.load(config)
+    return yaml.load(config, Loader=Loader)
 
 
 if __name__ == "__main__":
@@ -219,10 +227,10 @@ if __name__ == "__main__":
     yamlConfig = parse_config(options.config)
 
     if os.path.isdir(options.outputDir):
-        # raise Exception('output directory must not exist yet')
-        raw_input("Warning: output directory exists. Press Enter to continue...")
+        #raise Exception('output directory must not exist yet')
+        input("Warning: output directory exists. Press Enter to continue...")
     else:
-        os.mkdir(options.outputDir)
+    	os.mkdir(options.outputDir)
 
     X_train_val, X_test, y_train_val, y_test, labels = get_features(options, yamlConfig)
 
