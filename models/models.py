@@ -27,7 +27,6 @@ from quantized_ops import binary_tanh as binary_tanh_op
 from quantized_ops import ternarize
 from quantized_ops import quantized_relu as quantize_op
 
-
 def binary_tanh(x):
     return binary_tanh_op(x)
 
