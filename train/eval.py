@@ -8,6 +8,11 @@ from argparse import ArgumentParser
 from keras import backend as K
 import numpy as np
 
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
+print("sys.path:", sys.path)
+
 # fix random seed for reproducibility
 seed = 42
 np.random.seed(seed)
@@ -22,14 +27,14 @@ from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
 import itertools
-from constraints import ZeroSomeWeights
+from models.constraints import ZeroSomeWeights
 from keras.utils.generic_utils import get_custom_objects
 
 get_custom_objects().update({"ZeroSomeWeights": ZeroSomeWeights})
 import yaml
-from train import parse_config, get_features
-from quantized_layers import Clip, BinaryDense, TernaryDense, QuantizedDense
-from models import binary_tanh, ternary_tanh, quantized_relu
+from train.train import parse_config, get_features
+from layers.quantized_layers import Clip, BinaryDense, TernaryDense, QuantizedDense
+from models.models import binary_tanh, ternary_tanh, quantized_relu
 
 # To turn off GPU
 # os.environ['CUDA_VISIBLE_DEVICES'] = ''
@@ -116,7 +121,7 @@ def makeRoc(features_val, labels, labels_val, model, outputDir):
         fontsize=14,
     )
     # plt.figtext(0.35, 0.90,'preliminary', style='italic', wrap=True, horizontalalignment='center', fontsize=14)
-    plt.savefig("%s/ROC.pdf" % (options.outputDir))
+    plt.savefig("%s/ROC.pdf" % (outputDir))
     return predict_test
 
 
@@ -191,7 +196,7 @@ if __name__ == "__main__":
 
     if os.path.isdir(options.outputDir):
         # raise Exception('output directory must not exist yet')
-        raw_input("Warning: output directory exists. Press Enter to continue...")
+        input("Warning: output directory exists. Press Enter to continue...")
     else:
         os.mkdir(options.outputDir)
 
@@ -278,6 +283,7 @@ if __name__ == "__main__":
         plt.ylabel("loss")
         plt.savefig(options.outputDir + "/loss.pdf")
 
+        print(myDictofLists.keys())
         plt.figure()
         val_acc = np.asarray(myDictOfLists[b"val_acc"])
         acc = np.asarray(myDictOfLists[b"acc"])

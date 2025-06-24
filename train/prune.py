@@ -10,6 +10,11 @@ import numpy as np
 import h5py
 import matplotlib
 
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
+print("sys.path:", sys.path)
+
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
 from scipy import stats
@@ -17,8 +22,8 @@ from sklearn.metrics import roc_curve, auc
 import pandas as pd
 from keras.utils.conv_utils import convert_kernel
 import tensorflow as tf
-from constraints import ZeroSomeWeights
-from train import print_model_to_json
+from models.constraints import ZeroSomeWeights
+from train.train import print_model_to_json
 from keras.utils.generic_utils import get_custom_objects
 
 get_custom_objects().update({"ZeroSomeWeights": ZeroSomeWeights})
@@ -112,7 +117,7 @@ if __name__ == "__main__":
     )
     (options, args) = parser.parse_args()
 
-    from models import three_layer_model
+    from models.models import three_layer_model
     from keras.layers import Input
 
     model = load_model(

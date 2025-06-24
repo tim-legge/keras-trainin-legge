@@ -3,20 +3,25 @@ import os
 import keras
 import numpy as np
 
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
+print("sys.path:", sys.path)
+
 # fix random seed for reproducibility
 seed = 42
 np.random.seed(seed)
 from optparse import OptionParser
 import h5py
 from keras.optimizers import Adam, Nadam
-from callbacks import all_callbacks
+from train.callbacks import all_callbacks
 import pandas as pd
 from keras.layers import Input
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 import yaml
-from train import parse_config, get_features, print_model_to_json
-import models
+from train.train import parse_config, get_features, print_model_to_json
+import models.models
 
 # To turn off GPU
 # os.environ['CUDA_VISIBLE_DEVICES'] = ''
@@ -83,7 +88,7 @@ if __name__ == "__main__":
 
     if os.path.isdir(options.outputDir):
         # raise Exception('output directory must not exists yet')
-        raw_input("Warning: output directory exists. Press Enter to continue...")
+        input("Warning: output directory exists. Press Enter to continue...")
     else:
         os.mkdir(options.outputDir)
 

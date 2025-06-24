@@ -7,7 +7,7 @@ from keras.layers import InputSpec, Layer, Dense, Conv2D, SimpleRNN
 from keras import constraints
 from keras import initializers
 
-from quantized_ops import quantize, clip_through, binarize, ternarize
+from layers.quantized_ops import quantize, clip_through, binarize, ternarize
 
 
 class Clip(constraints.Constraint):

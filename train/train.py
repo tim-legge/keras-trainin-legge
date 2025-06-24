@@ -4,19 +4,27 @@ import os
 import keras
 import numpy as np
 
+repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if repo_root not in sys.path:
+    sys.path.insert(0, repo_root)
+print("sys.path:", sys.path)
+
 # fix random seed for reproducibility
 seed = 42
 np.random.seed(seed)
 from optparse import OptionParser
 import h5py
 from keras.optimizers import Adam, Nadam
-from callbacks import all_callbacks
+from train.callbacks import all_callbacks
 import pandas as pd
 from keras.layers import Input
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 import yaml
-import models
+from yaml import Loader, Dumper
+import models.models
+import models.constraints
+import models.regularizers
 
 # To turn off GPU
 # os.environ['CUDA_VISIBLE_DEVICES'] = ''
@@ -173,7 +181,7 @@ def parse_config(config_file):
 
     print("Loading configuration from", config_file)
     config = open(config_file, "r")
-    return yaml.load(config)
+    return yaml.load(config, Loader=Loader)
 
 
 if __name__ == "__main__":
@@ -220,14 +228,14 @@ if __name__ == "__main__":
 
     if os.path.isdir(options.outputDir):
         # raise Exception('output directory must not exist yet')
-        raw_input("Warning: output directory exists. Press Enter to continue...")
+        input("Warning: output directory exists. Press Enter to continue...")
     else:
         os.mkdir(options.outputDir)
 
     X_train_val, X_test, y_train_val, y_test, labels = get_features(options, yamlConfig)
 
     # from models import three_layer_model
-    model = getattr(models, yamlConfig["KerasModel"])
+    model = getattr(models.models, yamlConfig["KerasModel"])
     if "L1RegR" in yamlConfig:
         keras_model = model(
             Input(shape=X_train_val.shape[1:]),
@@ -240,7 +248,6 @@ if __name__ == "__main__":
             Input(shape=X_train_val.shape[1:]),
             y_train_val.shape[1],
             l1Reg=yamlConfig["L1Reg"],
-            layersizes = yamlConfig["LayerSizes"]
         )
 
     print_model_to_json(keras_model, options.outputDir + "/" + "KERAS_model.json")

@@ -1,5 +1,5 @@
 from keras.constraints import *
-from keras.layers.merge import multiply
+from keras.layers import Multiply
 
 
 class ZeroSomeWeights(Constraint):
@@ -17,7 +17,7 @@ class ZeroSomeWeights(Constraint):
 
     def __call__(self, w):
         if self.binary_tensor is not None:
-            w = multiply([w, K.variable(value=self.binary_tensor)])
+            w = Multiply([w, K.variable(value=self.binary_tensor)])
         return w
 
     def get_config(self):
