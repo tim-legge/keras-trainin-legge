@@ -140,26 +140,26 @@ def two_layer_model_constraint(Inputs, nclasses, l1Reg=0, h5fName=None):
     return model
 
 
-def three_layer_model(Inputs, nclasses, l1Reg=0):
+def three_layer_model(Inputs, nclasses, layersizes = [64, 32, 32], l1Reg=0):
     """
     Two hidden layers model
     """
     x = Dense(
-        units = 64,
+        units=layersizes[0],
         activation="relu",
         kernel_initializer="lecun_uniform",
         name="fc1_relu",
         kernel_regularizer=l1(l1Reg),
     )(Inputs)
     x = Dense(
-        units= 32,
+        units=layersizes[1],
         activation="relu",
         kernel_initializer="lecun_uniform",
         name="fc2_relu",
         kernel_regularizer=l1(l1Reg),
     )(x)
     x = Dense(
-        units= 32,
+        units=layersizes[2],
         activation="relu",
         kernel_initializer="lecun_uniform",
         name="fc3_relu",
