@@ -28,7 +28,7 @@ from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
 import itertools
 from models.constraints import ZeroSomeWeights
-from keras.utils.generic_utils import get_custom_objects
+from tensorflow.keras.utils import get_custom_objects
 
 get_custom_objects().update({"ZeroSomeWeights": ZeroSomeWeights})
 import yaml

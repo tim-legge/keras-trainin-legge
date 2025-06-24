@@ -21,10 +21,10 @@ from scipy import stats
 from sklearn.metrics import roc_curve, auc
 import pandas as pd
 #from keras.utils.conv_utils import convert_kernel
-import tensorflow as tf
+#import tensorflow as tf
 from models.constraints import ZeroSomeWeights
 from train.train import print_model_to_json
-from keras.utils.generic_utils import get_custom_objects
+from tensorflow.keras.utils import get_custom_objects
 
 get_custom_objects().update({"ZeroSomeWeights": ZeroSomeWeights})
 

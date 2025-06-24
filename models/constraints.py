@@ -1,6 +1,6 @@
 from keras.constraints import *
-from keras.layers import Multiply
-
+from keras import backend as K
+import tensorflow as tf
 
 class ZeroSomeWeights(Constraint):
     """ZeroSomeWeights weight constraint.
@@ -15,10 +15,11 @@ class ZeroSomeWeights(Constraint):
     def __init__(self, binary_tensor=None):
         self.binary_tensor = binary_tensor
 
-    def __call__(self, w):
+    def __call__(self, w=[0]):
         if self.binary_tensor is not None:
-            #w = Multiply([w, K.variable(value=self.binary_tensor)])
-            w = Multiply()([w, self.binary_tensor])
+            #w = Multiply()([w, K.variable(value=self.binary_tensor)])
+            #w = K.multiply(w, self.binary_tensor)
+            w = tf.multiply(w, self.binary_tensor)
         return w
 
     def get_config(self):
