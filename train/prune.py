@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 from sklearn.metrics import roc_curve, auc
 import pandas as pd
-from keras.utils.conv_utils import convert_kernel
+#from keras.utils.conv_utils import convert_kernel
 import tensorflow as tf
 from models.constraints import ZeroSomeWeights
 from train.train import print_model_to_json
@@ -55,9 +55,10 @@ def getWeightArray(model):
                     tensor_reduce_max_0 = tf.reduce_max(tensor_abs, axis=-1)
                     tensor_reduce_max_1 = tf.reduce_max(tensor_reduce_max_0, axis=-1)
                     tensor_reduce_max_2 = tf.reduce_max(tensor_reduce_max_1, axis=-1)
-                with tf.Session():
+                #with tf.Session():
                     # l1norm_val = float(l1norm.eval())
-                    tensor_max = float(tensor_reduce_max_2.eval())
+		#next line was tensor_max = float(tensor_reduce_max_2.eval())
+                tensor_max = float(tensor_reduce_max_2)
                 it = np.nditer(
                     my_weights, flags=["multi_index"], op_flags=["readwrite"]
                 )
@@ -117,7 +118,7 @@ if __name__ == "__main__":
     )
     (options, args) = parser.parse_args()
 
-    from models.models import three_layer_model
+    from models.models import *
     from keras.layers import Input
 
     model = load_model(
@@ -162,9 +163,10 @@ if __name__ == "__main__":
                     tensor_reduce_max_0 = tf.reduce_max(tensor_abs, axis=-1)
                     tensor_reduce_max_1 = tf.reduce_max(tensor_reduce_max_0, axis=-1)
                     tensor_reduce_max_2 = tf.reduce_max(tensor_reduce_max_1, axis=-1)
-                with tf.Session():
+                #with tf.Session():
                     # l1norm_val = float(l1norm.eval())
-                    tensor_max = float(tensor_reduce_max_2.eval())
+		#tensor_max = float(tensor_reduce_max_2.eval())
+                tensor_max = float(tensor_reduce_max_2)
                 it = np.nditer(
                     my_weights, flags=["multi_index"], op_flags=["readwrite"]
                 )
@@ -323,7 +325,7 @@ if __name__ == "__main__":
     # plt.hist(allWeightsArrayNonRel,bins=bins)
     # plt.hist(allWeightsByLayerNonRel.values(),bins=bins,histtype='bar',stacked=True,label=allWeightsByLayer.keys())
     plt.hist(histos, bins=bins, histtype="step", stacked=False, label=labels)
-    plt.semilogx(basex=2)
+    plt.semilogx(base=2)
     plt.legend(prop={"size": 10}, frameon=False, loc="upper left")
     plt.ylabel("Number of Weights")
     plt.xlabel("Absolute Value of Weights")

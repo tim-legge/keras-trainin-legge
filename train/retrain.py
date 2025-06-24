@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     X_train_val, X_test, y_train_val, y_test, labels = get_features(options, yamlConfig)
 
-    model_constraint = getattr(models, yamlConfig["KerasModelRetrain"])
+    model_constraint = getattr(models.models, yamlConfig["KerasModelRetrain"])
 
     # Instantiate new model with added custom constraints
     if "L1RegR" in yamlConfig:

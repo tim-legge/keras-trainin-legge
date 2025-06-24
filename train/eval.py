@@ -283,10 +283,10 @@ if __name__ == "__main__":
         plt.ylabel("loss")
         plt.savefig(options.outputDir + "/loss.pdf")
 
-        print(myDictofLists.keys())
+        print(myDictOfLists.keys())
         plt.figure()
-        val_acc = np.asarray(myDictOfLists[b"val_acc"])
-        acc = np.asarray(myDictOfLists[b"acc"])
+        val_acc = np.asarray(myDictOfLists[b"val_accuracy"])
+        acc = np.asarray(myDictOfLists[b"accuracy"])
         plt.plot(val_acc, label="validation")
         plt.plot(acc, label="train")
         plt.legend()
