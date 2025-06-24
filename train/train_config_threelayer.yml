@@ -27,6 +27,5 @@ KerasModel: three_layer_model
 KerasModelRetrain: three_layer_model_constraint
 KerasLoss: categorical_crossentropy
 L1Reg: 0.0001
-LayerSizes: [64,32,32]
 NormalizeInputs: 1 
 InputType: Dense
